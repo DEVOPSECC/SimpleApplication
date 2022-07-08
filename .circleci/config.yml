@@ -9,7 +9,7 @@ workflows:
             branches:
               only:
                 - main
-     - deploy:
+      - deploy:
           filters:
             branches:
               only:
@@ -22,7 +22,7 @@ jobs:
   build:
     working_directory: ~/c/Users/Adanna/Downloads/SimpleApplication
     docker:
-      - image: circleci/node:10.16.3
+      - image: cimg/node:12.16
     steps:
       - checkout
       - run:
@@ -31,20 +31,17 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: install-npm
+          name: install-npm-wee
           command: npm install
      
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-<<<<<<< HEAD
   deploy:
     docker:
       - image: circleci/node:10.16.3
     steps:
       - run:
           name: deploy-application
-          command: ssh -o StrictHostKeyChecking=no $EC2_LILIAN@EC2_PUBLIC_DNS "rm -rf SimpleApplicationApplication/;git clone https://github.com/DEVOPSECC/SimpleApplication.git; source SimpleApplication/deploy.sh"          
-=======
->>>>>>> 4793a44ef02e691d04fb1ef1a60094de7e9c28bc
+          command: ssh -o StrictHostKeyChecking=no $EC2_LILIAN@EC2_PUBLIC_DNS "rm -rf SimpleApplicationApplication/;git clone https://github.com/DEVOPSECC/SimpleApplication.git; source SimpleApplication/deploy.sh          
